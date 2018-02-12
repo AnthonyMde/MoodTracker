@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MoodTrackerBeta</string>
+    <string name="note_add_desc">MoodTracker Application</string>
+    <string name="history_desc">See your mood history</string>
+    <string name="smiley_desc">Mood Smiley</string>
+    <string name="ok">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="note_add_text_msg">Add a comment :</string>
+    <string name="hint_comment">My comment</string>
+    <string name="empty">VIDE</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--
+    We use a FrameLayout which embedded views, although there is only one view in this
+    layout file.
+    -->
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--
+    ImageView without src. The ImageView's image and background are added
+    dynamically with SmileyFragment class. It allows us to add different image and background
+    for each fragment.
+    -->
+    <ImageView
+        android:id="@+id/main_page_fragment_image_view"
+        android:contentDescription="@string/smiley_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+</FrameLayout>
