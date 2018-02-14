@@ -25,7 +25,7 @@ public class HistoryActivity extends AppCompatActivity {
         historyRecyclerView.setAdapter(new HistoryRecyclerAdapter());
 
         DataHolder.loadData(this);
-        historyRecyclerView.setBackgroundColor(historyRecyclerView.getResources().getColor(R.color.grey));
+        historyRecyclerView.setBackgroundColor(historyRecyclerView.getResources().getColor(R.color.soft_grey));
     }
 
 }

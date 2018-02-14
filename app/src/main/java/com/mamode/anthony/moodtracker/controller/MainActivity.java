@@ -1,13 +1,10 @@
 package com.mamode.anthony.moodtracker.controller;
 
-import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,12 +36,9 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //DataHolder.clearMoods(this);
         DataHolder.loadData(this);
         setContentView(R.layout.activity_main);
-        Calendar calendar1 = Calendar.getInstance();
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(2018, 1, 14);
-        DataHolder.getDaysDifference(calendar1, calendar2);
 
         //Wire widgets
         mVerticalViewPager = findViewById(R.id.activity_main_view_pager);
@@ -116,7 +110,9 @@ public class MainActivity extends FragmentActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 String note = mEditTextNote.getText().toString();
-                DataHolder.addMood(MainActivity.this, new Mood(mVerticalViewPager.getCurrentItem(), "10-02-18", note));
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(2018, 1, 10);
+                DataHolder.addMood(MainActivity.this, new Mood(mVerticalViewPager.getCurrentItem(), calendar, note));
 
             }
         });

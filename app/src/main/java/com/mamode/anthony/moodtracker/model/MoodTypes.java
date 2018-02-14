@@ -1,16 +1,12 @@
 package com.mamode.anthony.moodtracker.model;
 
-/**
- * Created by Anthony on 08/02/2018.
- */
-
 //For each mood we have a final int
 public class MoodTypes {
-    public static final int Sad = 0;
-    public static final int Normal = 1;
-    public static final int Disappointed = 2;
-    public static final int Happy = 3;
-    public static final int SuperHappy = 4;
+    private static final int Sad = 0;
+    private static final int Normal = 1;
+    private static final int Disappointed = 2;
+    private static final int Happy = 3;
+    private static final int SuperHappy = 4;
 
     //Keep count of the number of mood available
     public static int getCount() {

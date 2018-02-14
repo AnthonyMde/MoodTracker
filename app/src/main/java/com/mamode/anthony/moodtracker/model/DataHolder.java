@@ -110,23 +110,22 @@ public class DataHolder {
         sMoodArrayList.remove(0);
     }
 
-    public static int getDaysDifference(Calendar calendar1,Calendar calendar2)
+    public static int getDaysDifference(Calendar dateToCompare,Calendar currentDay)
     {
-        if(calendar1==null||calendar2==null)
+        if(dateToCompare==null||currentDay==null)
             return 0;
 
-        Log.v("DateDiff = ", "diff = " + (calendar2.getTimeInMillis() - calendar1.getTimeInMillis()) / (1000 * 60 * 60 * 24));
-        return (int)( (calendar2.getTimeInMillis() - calendar1.getTimeInMillis()) / (1000 * 60 * 60 * 24));
+        Log.v("DateDiff = ", "diff = " + (currentDay.getTimeInMillis() - dateToCompare.getTimeInMillis()) / (1000 * 60 * 60 * 24));
+        return (int)( (currentDay.getTimeInMillis() - dateToCompare.getTimeInMillis()) / (1000 * 60 * 60 * 24));
     }
 
     public static String getTimeMood() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
         return dateFormat.format(calendar.getTime());
-
     }
 
-    public static long convertTime(String moodDate) {
+    /*public static long convertTime(String moodDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
         Date date = null;
         try {
@@ -140,5 +139,5 @@ public class DataHolder {
         } else {
             return -1;
         }
-    }
+    }*/
 }
