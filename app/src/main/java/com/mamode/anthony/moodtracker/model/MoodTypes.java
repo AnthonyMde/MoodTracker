@@ -5,7 +5,7 @@ public class MoodTypes {
     private static final int Sad = 0;
     private static final int Normal = 1;
     private static final int Disappointed = 2;
-    private static final int Happy = 3;
+    public static final int Happy = 3;
     private static final int SuperHappy = 4;
 
     //Keep count of the number of mood available
@@ -18,8 +18,8 @@ public class MoodTypes {
     public static String getName(int moodType) {
         switch (moodType) {
             case MoodTypes.Sad: return "sad";
-            case MoodTypes.Normal: return "normal";
-            case MoodTypes.Disappointed: return "disappointed";
+            case MoodTypes.Normal: return "disappointed";
+            case MoodTypes.Disappointed: return "normal";
             case MoodTypes.Happy: return "happy";
             case MoodTypes.SuperHappy: return "super_happy";
         }

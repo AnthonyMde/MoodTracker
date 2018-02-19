@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/alert_dialog_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:hint="@string/note_add_text_msg"
-        android:layout_margin="10dp"
-        android:textSize="20sp"/>
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/alert_dialog_edit_text"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"/>
+        android:layout_alignStart="@+id/alert_dialog_textView"
+        android:layout_below="@+id/alert_dialog_textView"
+        android:inputType="text"
+        android:labelFor="@id/alert_dialog_edit_text" />
 
 
-</LinearLayout>
+</RelativeLayout>

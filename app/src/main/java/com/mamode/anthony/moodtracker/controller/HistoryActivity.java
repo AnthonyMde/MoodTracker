@@ -1,6 +1,5 @@
 package com.mamode.anthony.moodtracker.controller;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.mamode.anthony.moodtracker.R;
 import com.mamode.anthony.moodtracker.model.DataHolder;
-import com.mamode.anthony.moodtracker.model.Mood;
 import com.mamode.anthony.moodtracker.view.HistoryRecyclerAdapter;
 
 
@@ -24,7 +22,7 @@ public class HistoryActivity extends AppCompatActivity {
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         historyRecyclerView.setAdapter(new HistoryRecyclerAdapter());
 
-        DataHolder.loadData(this);
+        //DataHolder.loadData(this);
         historyRecyclerView.setBackgroundColor(historyRecyclerView.getResources().getColor(R.color.soft_grey));
     }
 

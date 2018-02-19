@@ -28,13 +28,12 @@ public class VerticalViewPager extends ViewPager {
         return super.getCurrentItem();
     }
 
+
+     /*Set a PageTransformer that will be called whenever the scroll position is changed
+     ReverseDrawingOrder : true if the PageTransformer needs views to be drawn from last to first
+     LayerType : code 0 = none*/
     private void init() {
-        /**
-         *Set a PageTransformer that will be called whenever the scroll position is changed
-         * ReverseDrawingOrder : true if the PageTransformer needs views to be drawn from last to first
-         * LayerType : code 0 = none
-         */
-        setPageTransformer(true, new VerticalPageTransformer(), 0);
+        setPageTransformer(false, new VerticalPageTransformer(), 0);
     }
 
     //Method to intercept touch event
@@ -48,6 +47,7 @@ public class VerticalViewPager extends ViewPager {
     //Method to handle touch screen motion events
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         final boolean handleTouch = super.onTouchEvent(switchXY(event));
         switchXY(event);
         return handleTouch;

@@ -1,17 +1,11 @@
 package com.mamode.anthony.moodtracker.model;
 
-import java.util.Calendar;
-
-/**
- * Created by Anthony on 05/02/2018.
- */
-
 public class Mood {
-    private Calendar mDate;
+    private String mDate;
     private String mNote;
     private int mMoodType;
 
-    public Mood(int moodType, Calendar date, String note) {
+    public Mood(int moodType, String date, String note) {
         mMoodType = moodType;
         mDate = date;
         mNote = note;
@@ -25,12 +19,8 @@ public class Mood {
         return mMoodType;
     }
 
-    public Calendar getDate(){
+    public String getDateMood(){
         return mDate;
-    }
-
-    public void setDate(Calendar moodDate){
-        mDate = moodDate;
     }
 
     @Override
