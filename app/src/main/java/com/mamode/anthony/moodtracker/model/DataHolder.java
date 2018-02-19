@@ -120,8 +120,8 @@ public class DataHolder {
 
         long days = 0;
         try {
-            Date date1 = myFormat.parse(dateToCompare);
-            Date date2 = myFormat.parse(currentDay);
+            Date date1 = myFormat.parse(currentDay);
+            Date date2 = myFormat.parse(dateToCompare);
             long diff = date2.getTime() - date1.getTime();
             days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
             Log.i("Days: ", String.valueOf(days));

@@ -3,9 +3,10 @@
     <string name="note_add_desc">MoodTracker Application</string>
     <string name="history_desc">See your mood history</string>
     <string name="smiley_desc">Mood Smiley</string>
-    <string name="ok">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="note_add_text_msg">Add a note :</string>
+    <string name="ok">VALIDER</string>
+    <string name="cancel">ANNULER</string>
+    <string name="note_add_text_msg">Commentaire :</string>
     <string name="hint_comment">My comment</string>
     <string name="empty">Jour de la semaine</string>
+    <string name="pie_button">Statistics Button</string>
 </resources>

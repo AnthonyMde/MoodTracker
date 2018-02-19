@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.HistoryActivity"/>
+        <activity android:name=".controller.StatisticActivity"/>
     </application>
 
 </manifest>

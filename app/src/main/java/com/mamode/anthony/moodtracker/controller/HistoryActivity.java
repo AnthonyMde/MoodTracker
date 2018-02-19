@@ -12,18 +12,21 @@ import com.mamode.anthony.moodtracker.view.HistoryRecyclerAdapter;
 
 
 public class HistoryActivity extends AppCompatActivity {
+    private RecyclerView mHistoryRecyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_layout);
-
-        final RecyclerView historyRecyclerView = findViewById(R.id.history_recycler_view);
-        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        historyRecyclerView.setAdapter(new HistoryRecyclerAdapter());
-
-        //DataHolder.loadData(this);
-        historyRecyclerView.setBackgroundColor(historyRecyclerView.getResources().getColor(R.color.soft_grey));
+        mHistoryRecyclerView = findViewById(R.id.history_recycler_view);
+        mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mHistoryRecyclerView.setAdapter(new HistoryRecyclerAdapter());
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DataHolder.loadData(this);
+        mHistoryRecyclerView.setBackgroundColor(mHistoryRecyclerView.getResources().getColor(R.color.soft_grey));
+    }
 }

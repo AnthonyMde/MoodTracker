@@ -5,10 +5,11 @@ FrameLayout is mainly use to contain only one child. Here, VerticalViewPager is 
 In a FrameLayout, our siblings views are stack. So, the two buttons are piled up over our ViewPager.
 It allows to switch through our fragments which are containing in this FrameLayout.
 -->
-<FrameLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context="com.mamode.anthony.moodtracker.controller.MainActivity">
 
     <!--
@@ -19,26 +20,36 @@ It allows to switch through our fragments which are containing in this FrameLayo
     <com.mamode.anthony.moodtracker.model.VerticalViewPager
         android:id="@+id/activity_main_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <ImageButton
         android:id="@+id/activity_main_note_add_btn"
-        android:contentDescription="@string/note_add_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginStart="14dp" android:layout_marginLeft="14dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/ic_note_add_black"/>
+        android:layout_marginStart="14dp"
+        android:background="@drawable/ic_note_add_black"
+        android:contentDescription="@string/note_add_desc" />
 
     <ImageButton
         android:id="@+id/activity_main_history_btn"
-        android:contentDescription="@string/history_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="11dp" android:layout_marginRight="11dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginEnd="11dp"
         android:background="@drawable/ic_history_black"
-        />
+        android:contentDescription="@string/history_desc" />
+
+    <ImageButton
+        android:id="@+id/activity_main_pie_btn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="70dp"
+        android:contentDescription="@string/pie_button"
+        android:background="@drawable/ic_pie_chart_black_24dp"/>
+
 </FrameLayout>
