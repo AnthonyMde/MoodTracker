@@ -46,7 +46,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
     @Override
     public void onBindViewHolder(HistoryRecyclerAdapter.MyViewHolder holder, int position) {
 
-        //Set the default week text
+        //Set the empty week text
         String dateText = weekDayTab[position] + " (vide)";
         mHistory_date_text.setText(dateText);
 

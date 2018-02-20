@@ -26,7 +26,7 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DataHolder.loadData(this);
+        //DataHolder.loadData(this);
         mHistoryRecyclerView.setBackgroundColor(mHistoryRecyclerView.getResources().getColor(R.color.soft_grey));
     }
 }

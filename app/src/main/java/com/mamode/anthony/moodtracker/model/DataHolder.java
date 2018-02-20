@@ -21,8 +21,10 @@ import static android.content.Context.MODE_PRIVATE;
 public class DataHolder {
     public static ArrayList<Mood> sHistoricArrayList = new ArrayList<>();
     public static ArrayList<Mood> sCurrentDayMood = new ArrayList<>();
+    public static int[] sStatisticCounterTab = new int[5];
     private static final String KEY_PREF_ARRAY = "KEY_PREF_ARRAY";
     private static final String KEY_PREF_CURRENT_MOOD = "KEY_PREF_CURRENT_MOOD";
+    private static final String KEY_PREF_STATISTIC_TAB = "KEY_PREF_STATISTIC_TAB";
 
 
     //Call when the user add a mood
@@ -41,9 +43,12 @@ public class DataHolder {
             if (getDaysDifference(sCurrentDayMood.get(0).getDateMood(), getCurrentTime()) <= 7) {
                 clearOldMoods(activity);
                 sHistoricArrayList.add(sCurrentDayMood.get(0));
+                sStatisticCounterTab[sCurrentDayMood.get(0).getMoodType()]++; //Increase counterTab to set percentage into our pie chart
+
                 sCurrentDayMood.clear();
                 sCurrentDayMood.add(mood);
             } else {
+                sStatisticCounterTab[sCurrentDayMood.get(0).getMoodType()]++; //Increase counterTab to set percentage into our pie chart
                 sCurrentDayMood.clear();
                 sCurrentDayMood.add(mood);
             }
@@ -64,11 +69,14 @@ public class DataHolder {
         Gson gson = new Gson();
         String arrayMood = gson.toJson(sHistoricArrayList);
         String currentMood = gson.toJson(sCurrentDayMood);
+        String statisticTab = gson.toJson(sStatisticCounterTab);
         editor.putString(KEY_PREF_ARRAY, arrayMood);
         editor.putString(KEY_PREF_CURRENT_MOOD, currentMood);
+        editor.putString(KEY_PREF_STATISTIC_TAB, statisticTab);
         editor.apply();
         Log.i("ArrayMood check stock :", arrayMood);
         Log.i("CurrentMood is store :", currentMood);
+        Log.i("Statistic Tab values : ", statisticTab);
     }
 
     //Deserialize our Mood's ArrayList
@@ -78,7 +86,10 @@ public class DataHolder {
         Gson gson = new Gson();
         String arrayMood = sharedPreferences.getString(KEY_PREF_ARRAY, null);
         String currentMood = sharedPreferences.getString(KEY_PREF_CURRENT_MOOD, null);
+        String statisticTab = sharedPreferences.getString(KEY_PREF_STATISTIC_TAB, null);
         Type type = new TypeToken<ArrayList<Mood>>() {
+        }.getType();
+        Type type2 = new TypeToken<int[]>(){
         }.getType();
 
         if (arrayMood != null) {
@@ -86,6 +97,9 @@ public class DataHolder {
         }
         if (currentMood != null) {
             sCurrentDayMood = gson.fromJson(currentMood, type);
+        }
+        if (statisticTab != null) {
+            sStatisticCounterTab = gson.fromJson(statisticTab, type2);
         }
 
         clearOldMoods(activity);
@@ -120,8 +134,8 @@ public class DataHolder {
 
         long days = 0;
         try {
-            Date date1 = myFormat.parse(currentDay);
-            Date date2 = myFormat.parse(dateToCompare);
+            Date date1 = myFormat.parse(dateToCompare);
+            Date date2 = myFormat.parse(currentDay);
             long diff = date2.getTime() - date1.getTime();
             days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
             Log.i("Days: ", String.valueOf(days));
@@ -141,6 +155,18 @@ public class DataHolder {
     public static void clearMoods(Activity activity) {
         sHistoricArrayList.clear();
         sCurrentDayMood.clear();
+        saveData(activity);
+    }
+
+    //For demo
+    public static void demoMoodHistoric(Activity activity){
+        sHistoricArrayList.add(new Mood(3,"12 02 2018", ""));
+        sHistoricArrayList.add(new Mood(0,"13 02 2018", "Une très très mauvaise journée..."));
+        sHistoricArrayList.add(new Mood(1,"14 02 2018", ""));
+        sHistoricArrayList.add(new Mood(3,"15 02 2018", "Le soleil est enfin de retour :)"));
+        sHistoricArrayList.add(new Mood(4,"16 02 2018", ""));
+        sHistoricArrayList.add(new Mood(2,"17 02 2018", ""));
+        sHistoricArrayList.add(new Mood(4,"18 02 2018", "Altered Carbon, trop bonne série !"));
         saveData(activity);
     }
 }

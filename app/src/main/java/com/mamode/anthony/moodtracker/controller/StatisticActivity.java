@@ -11,36 +11,32 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.mamode.anthony.moodtracker.R;
+import com.mamode.anthony.moodtracker.model.DataHolder;
 
 import java.util.ArrayList;
 
 public class StatisticActivity extends AppCompatActivity {
-    private ArrayList<PieEntry> historicPie = new ArrayList<>();
+    private ArrayList<PieEntry> mHistoricPie = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pie_chart_layout);
 
-        historicPie.add(new PieEntry(3f, "SAD", 0));
-        historicPie.add(new PieEntry(5f, "DISAPPOINTED", 1));
-        historicPie.add(new PieEntry(9f, "NORMAL", 2));
-        historicPie.add(new PieEntry(12f, "HAPPY", 3));
-        historicPie.add(new PieEntry(9f, "SUPER HAPPY", 4));
+        fillHistoricPie();
 
-
-        PieDataSet pieDataSet = new PieDataSet(historicPie, "");
+        PieDataSet pieDataSet = new PieDataSet(mHistoricPie, "");
         pieDataSet.setColors(MOODS_COLORS);
 
-        PieChart chart = new PieChart(this);
+        final PieChart chart = new PieChart(this);
         setContentView(chart);
         PieData data = new PieData(pieDataSet);
         chart.setData(data);
 
         Description desc = new Description();
-        desc.setText("Mood Statistics");
+        desc.setText("Statistics of 30 last moods");
         desc.setTextSize(60f);
-        desc.setPosition(650f, 150f);
+        desc.setPosition(1200f, 150f);
 
         //Set legend size
         pieDataSet.setFormSize(20f);
@@ -48,10 +44,11 @@ public class StatisticActivity extends AppCompatActivity {
 
         chart.setDescription(desc);
         chart.setEntryLabelColor(Color.parseColor("#000000"));
-        //chart.setBackgroundColor(Color.parseColor("#ff8b8b8b"));
         chart.setDrawEntryLabels(false);
         chart.setUsePercentValues(true);
-
+        chart.setDragDecelerationFrictionCoef(0.95f);
+        chart.setCenterText("%");
+        chart.setCenterTextSize(60f);
     }
 
     @Override
@@ -63,4 +60,22 @@ public class StatisticActivity extends AppCompatActivity {
             Color.parseColor("#ffde3c50"), Color.parseColor("#ff9b9b9b"), Color.parseColor("#a5468ad9"),
             Color.parseColor("#ffb8e986"), Color.parseColor("#fff9ec4f"),
     };
+
+    /*private void fillPercentageTab(){
+        int totalCount = 0;
+        for (int i = 0; i < 5; i++){
+            totalCount = totalCount + DataHolder.sStatisticCounterTab[i];
+        }
+        for (int i = 0; i<5; i++){
+            mPercentageTab[i] = (DataHolder.sStatisticCounterTab[i] * 100) / totalCount;
+        }
+    }*/
+
+    private void fillHistoricPie() {
+        mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[0], "SAD", 0));
+        mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[1], "DISAPPOINTED", 1));
+        mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[2], "NORMAL", 2));
+        mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[3], "HAPPY", 3));
+        mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[4], "SUPER HAPPY", 4));
+    }
 }

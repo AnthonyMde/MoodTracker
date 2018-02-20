@@ -42,6 +42,13 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //DataHolder.clearMoods(this);
+        //DataHolder.demoMoodHistoric(this);
+        /*DataHolder.sStatisticCounterTab[0] = 2;
+        DataHolder.sStatisticCounterTab[1] = 5;
+        DataHolder.sStatisticCounterTab[2] = 4;
+        DataHolder.sStatisticCounterTab[3] = 9;
+        DataHolder.sStatisticCounterTab[4] = 5;*/
+
         DataHolder.loadData(this);
         setContentView(R.layout.activity_main);
         Log.i("CurrentMoodSize :", DataHolder.sCurrentDayMood.toString());
