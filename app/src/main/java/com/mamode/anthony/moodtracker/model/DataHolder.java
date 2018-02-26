@@ -27,11 +27,14 @@ public class DataHolder {
     private static final String KEY_PREF_STATISTIC_TAB = "KEY_PREF_STATISTIC_TAB";
 
 
-    //Call when the user add a mood
+    //Save the new mood and check old moods
     public static void addMood(Activity activity, Mood mood) {
 
         //If a mood is already store
         if (sCurrentDayMood.size() == 1) {
+
+            long DaysDiff = getDaysDifference(sCurrentDayMood.get(0).getDateMood(), getCurrentTime());
+            int moodType = sCurrentDayMood.get(0).getMoodType();
 
             //The mood date is the current day : we just replace the mood by the new one
             if (sCurrentDayMood.get(0).getDateMood().equals(getCurrentTime())) {
@@ -40,15 +43,15 @@ public class DataHolder {
             }
 
             //The mood date is passed : we store it to the historic or delete it if it's too old
-            if (getDaysDifference(sCurrentDayMood.get(0).getDateMood(), getCurrentTime()) <= 7) {
+            if (DaysDiff >= 1 && DaysDiff <= 7){
                 clearOldMoods(activity);
                 sHistoricArrayList.add(sCurrentDayMood.get(0));
-                sStatisticCounterTab[sCurrentDayMood.get(0).getMoodType()]++; //Increase counterTab to set percentage into our pie chart
+                sStatisticCounterTab[moodType] = sStatisticCounterTab[moodType] +1; //Increase counterTab to set percentage into our pie chart
 
                 sCurrentDayMood.clear();
                 sCurrentDayMood.add(mood);
-            } else {
-                sStatisticCounterTab[sCurrentDayMood.get(0).getMoodType()]++; //Increase counterTab to set percentage into our pie chart
+            } else if(DaysDiff > 7) {
+                sStatisticCounterTab[moodType] = sStatisticCounterTab[moodType] +1; //Increase counterTab to set percentage into our pie chart
                 sCurrentDayMood.clear();
                 sCurrentDayMood.add(mood);
             }
@@ -62,7 +65,7 @@ public class DataHolder {
         saveData(activity);
     }
 
-    //Save our mood's ArrayList and CurrentMood into our SharedPreferences
+    //Save our historic mood, mood of the day and statistics
     private static void saveData(Activity activity) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -79,7 +82,7 @@ public class DataHolder {
         Log.i("Statistic Tab values : ", statisticTab);
     }
 
-    //Deserialize our Mood's ArrayList
+    //Deserialize our historic mood, mood of the day and statistics
     public static void loadData(Activity activity) {
         Log.i("loadData call", "true");
         SharedPreferences sharedPreferences = activity.getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
@@ -103,6 +106,8 @@ public class DataHolder {
         }
 
         clearOldMoods(activity);
+
+        Log.i("Statistic load values: ", statisticTab);
     }
 
     //Suppress too old moods
@@ -118,6 +123,7 @@ public class DataHolder {
         if (sCurrentDayMood.size() == 1) {
             if (!sCurrentDayMood.get(0).getDateMood().equals(getCurrentTime())) {
                 sHistoricArrayList.add(sCurrentDayMood.get(0));
+                sStatisticCounterTab[sCurrentDayMood.get(0).getMoodType()] = sStatisticCounterTab[sCurrentDayMood.get(0).getMoodType()] +1;
                 sCurrentDayMood.clear();
             }
         }
@@ -129,6 +135,7 @@ public class DataHolder {
         return sCurrentDayMood.get(0);
     }
 
+    //Return number of days between a mood save and the current day
     public static long getDaysDifference(String currentDay, String dateToCompare) {
         SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy", Locale.FRANCE);
 
@@ -157,16 +164,22 @@ public class DataHolder {
         sCurrentDayMood.clear();
         saveData(activity);
     }
-
     //For demo
     public static void demoMoodHistoric(Activity activity){
-        sHistoricArrayList.add(new Mood(3,"12 02 2018", ""));
-        sHistoricArrayList.add(new Mood(0,"13 02 2018", "Une très très mauvaise journée..."));
-        sHistoricArrayList.add(new Mood(1,"14 02 2018", ""));
-        sHistoricArrayList.add(new Mood(3,"15 02 2018", "Le soleil est enfin de retour :)"));
-        sHistoricArrayList.add(new Mood(4,"16 02 2018", ""));
-        sHistoricArrayList.add(new Mood(2,"17 02 2018", ""));
-        sHistoricArrayList.add(new Mood(4,"18 02 2018", "Altered Carbon, trop bonne série !"));
+        sHistoricArrayList.add(new Mood(3,"14 02 2018", "Le soleil est enfin de retour :)"));
+        sHistoricArrayList.add(new Mood(0,"15 02 2018", ""));
+        sHistoricArrayList.add(new Mood(1,"16 02 2018", "Pas trop le moral aujourd'hui"));
+        sHistoricArrayList.add(new Mood(3,"17 02 2018", ""));
+        sHistoricArrayList.add(new Mood(4,"18 02 2018", ""));
+        sHistoricArrayList.add(new Mood(2,"19 02 2018", ""));
+        sHistoricArrayList.add(new Mood(4,"20 02 2018", "Altered Carbon, trop bonne série !"));
         saveData(activity);
+    }
+    public static void demoMoodStatistic(){
+        sStatisticCounterTab[0] = 2;
+        sStatisticCounterTab[1] = 5;
+        sStatisticCounterTab[2] = 4;
+        sStatisticCounterTab[3] = 9;
+        sStatisticCounterTab[4] = 5;
     }
 }

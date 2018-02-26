@@ -9,7 +9,7 @@ import android.view.View;
 /**
  * Created by Anthony on 14/01/2018.
  * VerticalViewPager is an inheriting ViewPager class allowing to scroll up and down instead of
- * right and left.
+ * right and left between fragments
  */
 
 public class VerticalViewPager extends ViewPager {
@@ -61,14 +61,17 @@ public class VerticalViewPager extends ViewPager {
         return event;
     }
 
-    //The ViewPager.PageTransformer is invoked whenever the page is scrolled
+    /**
+     * VerticalPageTransformer displays fragments from top to bottom (instead right to left)
+     * thanks to its abstract method transformPage
+     **/
     private static final class VerticalPageTransformer implements ViewPager.PageTransformer {
-
+        //Provide the actual view and its relative position to the screen as arguments
         @Override
         public void transformPage(View view, float position) {
-            //To counteract the screen slide on X with a negative X translation
+            //Counteract the screen slide on X with a negative X translation
             view.setTranslationX(-1*view.getWidth()*position);
-            //To add a Y translation
+            //Add a Y translation for the view (fragment)
             view.setTranslationY(view.getHeight()*position);
         }
     }

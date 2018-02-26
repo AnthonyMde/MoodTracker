@@ -1,5 +1,9 @@
 package com.mamode.anthony.moodtracker.model;
 
+/**
+ * A mood is defined by its moodType (int), which determines how happy is the mood.
+ * When a mood is instantiated, its with a date (dd MM yyyy) and a note (which could be a empty string)
+ **/
 public class Mood {
     private String mDate;
     private String mNote;

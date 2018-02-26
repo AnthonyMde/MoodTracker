@@ -1,4 +1,4 @@
-package com.mamode.anthony.moodtracker.view;
+package com.mamode.anthony.moodtracker.controller;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,15 +14,14 @@ public class SmileyFragment extends Fragment {
 
     private static final String MOOD = "mood";
     private static final String BACKGROUND = "background";
-
     private String mMood;
     private String mBackground;
 
-    //Create a new instance of SmileyFragment, initialized to show the mood and the background color
+    //Create a new instance of SmileyFragment and set mood and background color
     public static SmileyFragment newInstance(String mood, String background) {
         SmileyFragment smileyFragment = new SmileyFragment();
 
-        //Create a Bundle to stock mood and background
+        //Create a Bundle to stock mood and background (we reuse them in onCreate and onCreateView)
         Bundle args = new Bundle();
 
         //putString() method add a value with a key to the bundle mapping (key, value)

@@ -2,11 +2,11 @@ package com.mamode.anthony.moodtracker.model;
 
 //For each mood we have a final int
 public class MoodTypes {
-    public static final int Sad = 0;
-    public static final int Disappointed = 1;
-    public static final int Normal = 2;
+    private static final int Sad = 0;
+    private static final int Disappointed = 1;
+    private static final int Normal = 2;
     public static final int Happy = 3;
-    public static final int SuperHappy = 4;
+    private static final int SuperHappy = 4;
 
     //Keep count of the number of mood available
     public static int getCount() {
@@ -26,7 +26,7 @@ public class MoodTypes {
         return "";
     }
 
-    //Return the color name according to is fragment position
+    //Return the color name according to moodType
     public static String getColor(int moodType) {
         switch (moodType) {
             case MoodTypes.Sad: return "faded_red";
@@ -38,7 +38,8 @@ public class MoodTypes {
         return "black";
     }
 
-    public static String getParseColor(int moodType) {
+    //Return hexadecimal color according to moodType
+    public static String getHexaColor(int moodType) {
         switch (moodType) {
             case MoodTypes.Sad: return "#ffde3c50";
             case MoodTypes.Disappointed: return "#ff9b9b9b";

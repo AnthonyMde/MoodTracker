@@ -9,4 +9,5 @@
     <string name="hint_comment">My comment</string>
     <string name="empty">Jour de la semaine</string>
     <string name="pie_button">Statistics Button</string>
+    <string name="history_note_button">See your note button</string>
 </resources>

@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 public class StatisticActivity extends AppCompatActivity {
     private ArrayList<PieEntry> mHistoricPie = new ArrayList<>();
+    private PieDataSet mPieDataSet;
+    private PieChart mPieChart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,35 +27,38 @@ public class StatisticActivity extends AppCompatActivity {
 
         fillHistoricPie();
 
-        PieDataSet pieDataSet = new PieDataSet(mHistoricPie, "");
-        pieDataSet.setColors(MOODS_COLORS);
+        //DataSet manage the percentage category, there is only this category of variables for the pie chart
+        mPieDataSet = new PieDataSet(mHistoricPie, "");
+        mPieDataSet.setColors(MOODS_COLORS);
 
-        final PieChart chart = new PieChart(this);
-        setContentView(chart);
-        PieData data = new PieData(pieDataSet);
-        chart.setData(data);
-
-        Description desc = new Description();
-        desc.setText("Statistics of 30 last moods");
-        desc.setTextSize(60f);
-        desc.setPosition(1200f, 150f);
-
-        //Set legend size
-        pieDataSet.setFormSize(20f);
-        pieDataSet.setValueTextSize(20f);
-
-        chart.setDescription(desc);
-        chart.setEntryLabelColor(Color.parseColor("#000000"));
-        chart.setDrawEntryLabels(false);
-        chart.setUsePercentValues(true);
-        chart.setDragDecelerationFrictionCoef(0.95f);
-        chart.setCenterText("%");
-        chart.setCenterTextSize(60f);
+        //Creating the object PieChart who's taking all parameters store in the DataSet
+        mPieChart = new PieChart(this);
+        setContentView(mPieChart);
+        PieData data = new PieData(mPieDataSet);
+        mPieChart.setData(data);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        //Custom the description
+        Description desc = new Description();
+        desc.setText("Statistiques de vos humeurs");
+        desc.setTextSize(60f);
+        desc.setPosition(1240f, 150f);
+
+        //Set legend size
+        mPieDataSet.setFormSize(20f);
+        mPieDataSet.setValueTextSize(20f);
+
+        mPieChart.setDescription(desc);
+        mPieChart.setEntryLabelColor(Color.parseColor("#000000"));
+        mPieChart.setDrawEntryLabels(false);
+        mPieChart.setUsePercentValues(true);
+        mPieChart.setDragDecelerationFrictionCoef(0.95f);
+        mPieChart.setCenterText("%");
+        mPieChart.setCenterTextSize(60f);
     }
 
     public static final int[] MOODS_COLORS = {
@@ -61,17 +66,8 @@ public class StatisticActivity extends AppCompatActivity {
             Color.parseColor("#ffb8e986"), Color.parseColor("#fff9ec4f"),
     };
 
-    /*private void fillPercentageTab(){
-        int totalCount = 0;
-        for (int i = 0; i < 5; i++){
-            totalCount = totalCount + DataHolder.sStatisticCounterTab[i];
-        }
-        for (int i = 0; i<5; i++){
-            mPercentageTab[i] = (DataHolder.sStatisticCounterTab[i] * 100) / totalCount;
-        }
-    }*/
-
     private void fillHistoricPie() {
+        //Add a category for the pie with its associated percentage
         mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[0], "SAD", 0));
         mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[1], "DISAPPOINTED", 1));
         mHistoricPie.add(new PieEntry(DataHolder.sStatisticCounterTab[2], "NORMAL", 2));

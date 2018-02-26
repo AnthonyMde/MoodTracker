@@ -3,14 +3,10 @@ package com.mamode.anthony.moodtracker.controller;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -24,6 +20,8 @@ import com.mamode.anthony.moodtracker.view.ViewPagerAdapter;
 
 /**
  * MainActivity extends FragmentActivity instead of Activity in order to use fragments.
+ * MainActivity is our controller : handle touchscreen to select Mood, add a note or access
+ * to other activities
  */
 
 public class MainActivity extends FragmentActivity {
@@ -34,24 +32,17 @@ public class MainActivity extends FragmentActivity {
     private ImageButton mAddNoteButton;
     private ImageButton mPieButton;
 
-    /**
-     * When the application is launched
-     * Bundle allows to keep the application state information when the app is stopped
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        DataHolder.loadData(this);
+
         //DataHolder.clearMoods(this);
         //DataHolder.demoMoodHistoric(this);
-        /*DataHolder.sStatisticCounterTab[0] = 2;
-        DataHolder.sStatisticCounterTab[1] = 5;
-        DataHolder.sStatisticCounterTab[2] = 4;
-        DataHolder.sStatisticCounterTab[3] = 9;
-        DataHolder.sStatisticCounterTab[4] = 5;*/
-
-        DataHolder.loadData(this);
-        setContentView(R.layout.activity_main);
-        Log.i("CurrentMoodSize :", DataHolder.sCurrentDayMood.toString());
+        //DataHolder.demoMoodStatistic();
+        //DataHolder.saveData(this);
 
         //Wire widgets
         mVerticalViewPager = findViewById(R.id.activity_main_view_pager);
@@ -79,21 +70,11 @@ public class MainActivity extends FragmentActivity {
             mVerticalViewPager.setCurrentItem(MoodTypes.Happy);
         }
 
-        //Set listener to our smiley
-        mPieButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent pieIntent = new Intent(MainActivity.this, StatisticActivity.class);
-                startActivity(pieIntent);
-                System.out.println("DO SOMETHING !!!!!");
-            }
-        });
-
         //Set listener and action to our mainActivity buttons
         mAddNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addNoteDialogue();
+                addMoodNote();
             }
         });
         mHistoryButton.setOnClickListener(new View.OnClickListener() {
@@ -103,14 +84,14 @@ public class MainActivity extends FragmentActivity {
                 startActivity(historyIntent);
             }
         });
+        mPieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pieIntent = new Intent(MainActivity.this, StatisticActivity.class);
+                startActivity(pieIntent);
+            }
+        });
 
-        System.out.println("MainActivity::onResume()");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        System.out.println("MainActivity::onStart()");
     }
 
     @Override
@@ -133,43 +114,40 @@ public class MainActivity extends FragmentActivity {
         System.out.println("MainActivity::onDestroy()");
     }
 
+    //Show AlertDialog to add note
+    //Positive button : save the mood with its note
+    public void addMoodNote() {
 
-    public void addNoteDialogue() {
-        //Create the AlertDialog
+        //Create the AlertDialog without constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
-        View dialogView = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.add_note_alert_dialog, null);
         builder.setView(dialogView);
-
-        //Wire widget
         mEditTextNote = dialogView.findViewById(R.id.alert_dialog_edit_text);
 
-        //Set positive button action : save data
+        //Save data
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 String note = mEditTextNote.getText().toString();
                 DataHolder.addMood(MainActivity.this, new Mood(mVerticalViewPager.getCurrentItem(), DataHolder.getCurrentTime(), note));
-
                 Toast.makeText(MainActivity.this, "Your note has been saved", Toast.LENGTH_SHORT).show();
-
             }
         });
+        //Close AlertDialog
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //Nothing happen, just close the AlertDialog
             }
         });
         builder.show();
     }
 
-    private void saveMoodWhenLeave(){
+    //Save the last mood selected before leaving
+    private void saveMoodWhenLeave() {
         if (DataHolder.sCurrentDayMood.size() == 1) {
             if (DataHolder.getCurrentMood().getMoodType() != mVerticalViewPager.getCurrentItem()) {
                 DataHolder.sCurrentDayMood.clear();
                 DataHolder.addMood(this, new Mood(mVerticalViewPager.getCurrentItem(), DataHolder.getCurrentTime(), ""));
-                Log.i("Current mood just saved", DataHolder.getCurrentMood().toString());
             }
         }
         if (DataHolder.sCurrentDayMood.size() == 0) {

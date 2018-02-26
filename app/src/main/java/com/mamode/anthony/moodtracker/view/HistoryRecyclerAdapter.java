@@ -17,7 +17,6 @@ import com.mamode.anthony.moodtracker.model.Mood;
 import com.mamode.anthony.moodtracker.model.MoodTypes;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecyclerAdapter.MyViewHolder> {
     private ImageButton mHistory_comment_btn;
@@ -25,17 +24,28 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
     private String[] weekDayTab = {"Il y a une semaine", "Il y a six jours", "Il y a cinq jours", "Il y a quatre jours", "Il y a trois jours",
             "Avant-hier", "Hier"};
 
+    /**
+     * The RecyclerView adapter needs a ViewHolder to display itemView in the RecyclerView
+     * We need our ViewHolder because ViewHolder class can't be instantiate (abstract class)
+     **/
+    protected class MyViewHolder extends RecyclerView.ViewHolder {
+        public MyViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+
+    //Create our view holder
     @Override
     public HistoryRecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.row_recycler_view, parent, false);
 
-
         //Wire widget
         mHistory_comment_btn = view.findViewById(R.id.history_row_image_button);
         mHistory_date_text = view.findViewById(R.id.row_history_date_text);
 
-        //Allows our default row_recycler_view to fit perfectly our recycler view, without any scrolling
+        //Allows our default row_recycler_view to fit perfectly our recycler view (without any scrolling)
         int height = parent.getMeasuredHeight() / 7;
         int width = parent.getMeasuredWidth();
 
@@ -43,42 +53,27 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         return new MyViewHolder(view);
     }
 
+    //Called by RecyclerView to display the data at the specified position. This method
+    //should update the contents of the ViewHolder itemView to reflect the item at the given position.
     @Override
     public void onBindViewHolder(HistoryRecyclerAdapter.MyViewHolder holder, int position) {
 
-        //Set the empty week text
+        //Set text by default
         String dateText = weekDayTab[position] + " (vide)";
         mHistory_date_text.setText(dateText);
 
-        //Check if there is a mood to show and stock our moodType in moodId
+        //Check if a mood is saved to display it
         final Mood currentMood = isThereAMoodToShow(position);
         if (currentMood != null) {
             int moodId = currentMood.getMoodType();
 
-
-            //------------------Set the text--------------------------
+            //Set text, size and color
             mHistory_date_text.setText(weekDayTab[position]);
+            setSizeRow(holder, currentMood);
+            holder.itemView.setBackgroundColor(Color.parseColor(MoodTypes.getHexaColor(moodId)));
+            mHistory_comment_btn.setBackgroundColor(Color.parseColor(MoodTypes.getHexaColor(moodId)));
 
-            //------------------Set the size of the row according to the mood-----------------------
-            DisplayMetrics dm = holder.itemView.getResources().getDisplayMetrics();
-            int widthRow = dm.widthPixels;
-            int heightRow = dm.heightPixels;
-
-            ConstraintLayout.LayoutParams params = new
-                    ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            if (currentMood.getMoodType() == 0) {
-                params.width = widthRow * (currentMood.getMoodType() + 1) / 4;
-            } else {
-                params.width = widthRow * (currentMood.getMoodType() + 1) / 5;
-            }
-            params.height = (heightRow / 7) - (heightRow / 220);
-            holder.itemView.setLayoutParams(params);
-
-            //---------------Set the color background for the view and the button-------------------
-            holder.itemView.setBackgroundColor(Color.parseColor(MoodTypes.getParseColor(moodId)));
-            mHistory_comment_btn.setBackgroundColor(Color.parseColor(MoodTypes.getParseColor(moodId)));
-
-            //---------------Show and then toast the comment if there is any------------------------
+            //If a note is store : show note button and display note when button's pressed
             if (!currentMood.getNote().equals("")) {
                 mHistory_comment_btn.setVisibility(View.VISIBLE);
                 mHistory_comment_btn.setOnClickListener(new View.OnClickListener() {
@@ -92,39 +87,15 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         }
     }
 
-
-    private Mood isThereAMoodToShow(int position) {
-        ArrayList<Mood> arrayMood = DataHolder.sHistoricArrayList;
-        int i = 0;
-        Mood moodForTheRow = null;
-        int modifiedPosition = getInvertRowPosition(position);
-        while (i < arrayMood.size() && moodForTheRow == null) {
-            Mood currentMood = arrayMood.get(i);
-            long j = (DataHolder.getDaysDifference(DataHolder.getCurrentTime(),currentMood.getDateMood()));
-            if (j == (modifiedPosition)) {
-                moodForTheRow = currentMood;
-            } else {
-                i++;
-            }
-        }
-        return moodForTheRow;
-    }
-
     @Override
     public int getItemCount() {
         return 7;
     }
 
-
-    protected class MyViewHolder extends RecyclerView.ViewHolder {
-        public MyViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
+    //Display mood note
     private void createToastMessage(View v, Mood currentItem) {
         LayoutInflater inflater = LayoutInflater.from(v.getContext());
-        View customToastView = inflater.inflate(R.layout.custom_toast, (ViewGroup) v.findViewById(R.id.custom_toast_container));
+        View customToastView = inflater.inflate(R.layout.custom_toast_history, (ViewGroup) v.findViewById(R.id.custom_toast_container));
 
         TextView toastTextView = customToastView.findViewById(R.id.custom_toast_txt);
         toastTextView.setText(currentItem.getNote());
@@ -133,6 +104,43 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(customToastView);
         toast.show();
+    }
+
+    //Make mood date matching row date
+    private Mood isThereAMoodToShow(int position) {
+        ArrayList<Mood> arrayMood = DataHolder.sHistoricArrayList;
+        int i = 0;
+        Mood moodForTheRow = null;
+        int rowDate = getInvertRowPosition(position); //If Position = 0, rowDate = 7
+
+        while (i < arrayMood.size() && moodForTheRow == null) {
+            Mood currentMood = arrayMood.get(i);
+            //Compare row date with mood date
+            long j = (DataHolder.getDaysDifference(DataHolder.getCurrentTime(), currentMood.getDateMood()));
+            if (j == (rowDate)) {
+                moodForTheRow = currentMood;
+            } else {
+                i++;
+            }
+        }
+        return moodForTheRow;
+    }
+
+    //Set row size according to the mood
+    private void setSizeRow(MyViewHolder holder, Mood currentMood) {
+        DisplayMetrics dm = holder.itemView.getResources().getDisplayMetrics();
+        int widthRow = dm.widthPixels;
+        int heightRow = dm.heightPixels;
+
+        ConstraintLayout.LayoutParams params = new
+                ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (currentMood.getMoodType() == 0) {
+            params.width = widthRow * (currentMood.getMoodType() + 1) / 4;
+        } else {
+            params.width = widthRow * (currentMood.getMoodType() + 1) / 5;
+        }
+        params.height = (heightRow / 7) - (heightRow / 220);
+        holder.itemView.setLayoutParams(params);
     }
 
     private int getInvertRowPosition(int position) {
