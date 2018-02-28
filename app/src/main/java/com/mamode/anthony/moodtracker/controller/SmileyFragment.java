@@ -45,7 +45,7 @@ public class SmileyFragment extends Fragment {
         mBackground = getArguments().getString(BACKGROUND);
     }
 
-    /**
+    /*
      * Override Fragment's onCreateView method.
      * The onCreateView() method is called when it's time to the fragment to create is UI for the
      * first time.

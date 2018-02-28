@@ -19,9 +19,11 @@ import java.util.concurrent.TimeUnit;
 import static android.content.Context.MODE_PRIVATE;
 
 public class DataHolder {
-    public static ArrayList<Mood> sHistoricArrayList = new ArrayList<>();
-    public static ArrayList<Mood> sCurrentDayMood = new ArrayList<>();
-    public static int[] sStatisticCounterTab = new int[5];
+    public static ArrayList<Mood> sHistoricArrayList = new ArrayList<>(); //Store moods saved for the seven last days
+    public static ArrayList<Mood> sCurrentDayMood = new ArrayList<>(); //Store the mood of the current day
+    public static int[] sStatisticCounterTab = new int[5];  //Store our moods statistics
+
+    //Our keys needed to store and retrieve our data
     private static final String KEY_PREF_ARRAY = "KEY_PREF_ARRAY";
     private static final String KEY_PREF_CURRENT_MOOD = "KEY_PREF_CURRENT_MOOD";
     private static final String KEY_PREF_STATISTIC_TAB = "KEY_PREF_STATISTIC_TAB";
@@ -131,6 +133,7 @@ public class DataHolder {
         saveData(activity);
     }
 
+    //Return the mood of the current day
     public static Mood getCurrentMood() throws NullPointerException {
         return sCurrentDayMood.get(0);
     }

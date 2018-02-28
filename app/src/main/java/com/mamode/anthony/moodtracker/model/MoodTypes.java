@@ -1,5 +1,10 @@
 package com.mamode.anthony.moodtracker.model;
 
+/**
+ * Set a MoodType for each of our moods.
+ * Thanks to those MoodTypes we can retrieve the mood's name and color easily
+ **/
+
 //For each mood we have a final int
 public class MoodTypes {
     private static final int Sad = 0;

@@ -17,7 +17,7 @@ It allows to switch through our fragments which are containing in this FrameLayo
     This ViewPager allows the user to flip up and down through fragments(instead of right and left).
     Each page view containing by the VerticalViewPager is a fragment (smiley_fragment).
     -->
-    <com.mamode.anthony.moodtracker.model.VerticalViewPager
+    <com.mamode.anthony.moodtracker.view.VerticalViewPager
         android:id="@+id/activity_main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

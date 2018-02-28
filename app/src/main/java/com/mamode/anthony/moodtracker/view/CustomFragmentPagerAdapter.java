@@ -10,13 +10,13 @@ import com.mamode.anthony.moodtracker.model.MoodTypes;
 /**
  * Created by Anthony on 14/01/2018.
  * <p>
- * The ViewPagerAdapter generates the fragments which will be used by
+ * The CustomFragmentPagerAdapter generates the fragments which will be used by
  * the VerticalViewPager. For doing so, it needs a FragmentManager, passed as
  * argument in is constructor.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
-    public ViewPagerAdapter(FragmentManager fm) {
+public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
+    public CustomFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

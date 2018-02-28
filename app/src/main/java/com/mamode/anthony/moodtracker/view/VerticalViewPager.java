@@ -1,4 +1,4 @@
-package com.mamode.anthony.moodtracker.model;
+package com.mamode.anthony.moodtracker.view;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Created by Anthony on 14/01/2018.
  * VerticalViewPager is an inheriting ViewPager class allowing to scroll up and down instead of
  * right and left between fragments
  */
@@ -23,6 +22,7 @@ public class VerticalViewPager extends ViewPager {
         init();
     }
 
+    //Return current fragment position as an integer : 0 to count-1
     @Override
     public int getCurrentItem() {
         return super.getCurrentItem();

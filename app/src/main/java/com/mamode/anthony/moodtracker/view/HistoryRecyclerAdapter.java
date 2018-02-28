@@ -18,32 +18,37 @@ import com.mamode.anthony.moodtracker.model.MoodTypes;
 
 import java.util.ArrayList;
 
+/**
+ * RecyclerViewAdapter class is needed to display our historic ArrayList as a list into the
+ * RecyclerView. It manages our data to display them in each RecyclerView's row and set
+ * a default behavior when there is no data to display
+ **/
+
 public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecyclerAdapter.MyViewHolder> {
-    private ImageButton mHistory_comment_btn;
-    private TextView mHistory_date_text;
+    private ImageButton mHistoryNoteBtn; //Show a note if there is any
+    private TextView mHistoryDateText;
     private String[] weekDayTab = {"Il y a une semaine", "Il y a six jours", "Il y a cinq jours", "Il y a quatre jours", "Il y a trois jours",
             "Avant-hier", "Hier"};
 
     /**
      * The RecyclerView adapter needs a ViewHolder to display itemView in the RecyclerView
-     * We need our ViewHolder because ViewHolder class can't be instantiate (abstract class)
+     * We need our proper ViewHolder because ViewHolder class can't be instantiate (abstract class)
      **/
     protected class MyViewHolder extends RecyclerView.ViewHolder {
-        public MyViewHolder(View itemView) {
+        private MyViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-
-    //Create our view holder
+    //Create our view holder : set default layout (without any data)
     @Override
     public HistoryRecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.row_recycler_view, parent, false);
 
         //Wire widget
-        mHistory_comment_btn = view.findViewById(R.id.history_row_image_button);
-        mHistory_date_text = view.findViewById(R.id.row_history_date_text);
+        mHistoryNoteBtn = view.findViewById(R.id.history_row_image_button);
+        mHistoryDateText = view.findViewById(R.id.row_history_date_text);
 
         //Allows our default row_recycler_view to fit perfectly our recycler view (without any scrolling)
         int height = parent.getMeasuredHeight() / 7;
@@ -53,14 +58,14 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         return new MyViewHolder(view);
     }
 
-    //Called by RecyclerView to display the data at the specified position. This method
-    //should update the contents of the ViewHolder itemView to reflect the item at the given position.
+    /*Called by RecyclerView to display the data at the specified position. This method
+    update the contents of the ViewHolder itemView to reflect the item at the given position.*/
     @Override
     public void onBindViewHolder(HistoryRecyclerAdapter.MyViewHolder holder, int position) {
 
         //Set text by default
         String dateText = weekDayTab[position] + " (vide)";
-        mHistory_date_text.setText(dateText);
+        mHistoryDateText.setText(dateText);
 
         //Check if a mood is saved to display it
         final Mood currentMood = isThereAMoodToShow(position);
@@ -68,15 +73,15 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
             int moodId = currentMood.getMoodType();
 
             //Set text, size and color
-            mHistory_date_text.setText(weekDayTab[position]);
+            mHistoryDateText.setText(weekDayTab[position]);
             setSizeRow(holder, currentMood);
             holder.itemView.setBackgroundColor(Color.parseColor(MoodTypes.getHexaColor(moodId)));
-            mHistory_comment_btn.setBackgroundColor(Color.parseColor(MoodTypes.getHexaColor(moodId)));
+            mHistoryNoteBtn.setBackgroundColor(Color.parseColor(MoodTypes.getHexaColor(moodId)));
 
             //If a note is store : show note button and display note when button's pressed
             if (!currentMood.getNote().equals("")) {
-                mHistory_comment_btn.setVisibility(View.VISIBLE);
-                mHistory_comment_btn.setOnClickListener(new View.OnClickListener() {
+                mHistoryNoteBtn.setVisibility(View.VISIBLE);
+                mHistoryNoteBtn.setOnClickListener(new View.OnClickListener() {
                     //Custom Toast Message
                     @Override
                     public void onClick(View v) {
@@ -87,6 +92,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         }
     }
 
+    //Set the number of row
     @Override
     public int getItemCount() {
         return 7;
@@ -143,6 +149,8 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         holder.itemView.setLayoutParams(params);
     }
 
+    //Call to make item position and date text position matching
+    //Day 7 == Position 0
     private int getInvertRowPosition(int position) {
         int[] modifiedPositionTab = {7, 6, 5, 4, 3, 2, 1};
         return modifiedPositionTab[position];

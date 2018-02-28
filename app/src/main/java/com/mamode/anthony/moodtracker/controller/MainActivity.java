@@ -14,8 +14,8 @@ import com.mamode.anthony.moodtracker.R;
 import com.mamode.anthony.moodtracker.model.DataHolder;
 import com.mamode.anthony.moodtracker.model.Mood;
 import com.mamode.anthony.moodtracker.model.MoodTypes;
-import com.mamode.anthony.moodtracker.model.VerticalViewPager;
-import com.mamode.anthony.moodtracker.view.ViewPagerAdapter;
+import com.mamode.anthony.moodtracker.view.VerticalViewPager;
+import com.mamode.anthony.moodtracker.view.CustomFragmentPagerAdapter;
 
 
 /**
@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity {
     private ImageButton mAddNoteButton;
     private ImageButton mPieButton;
 
-
+    //Call when the activity is starting. We inflate the view and connect widgets here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +50,16 @@ public class MainActivity extends FragmentActivity {
         mHistoryButton = findViewById(R.id.activity_main_history_btn);
         mPieButton = findViewById(R.id.activity_main_pie_btn);
 
-         /*Set the com.example.anthony.moodtrackerbeta.ViewPagerAdapter to show fragments.
-        The ViewPagerAdapter constructor needs a FragmentManager object as argument.
+         /*Set the com.example.anthony.moodtrackerbeta.CustomFragmentPagerAdapter to show fragments.
+        The CustomFragmentPagerAdapter constructor needs a FragmentManager object as argument.
         To provide it, we use the method "getSupportFragmentManager()".
         This FragmentManager object is necessary to keep in memory each fragment and to manage them.
         */
-        mVerticalViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        mVerticalViewPager.setAdapter(new CustomFragmentPagerAdapter(getSupportFragmentManager()));
     }
 
+    //Call just before displaying the UI
+    //We set all touch interaction here
     @Override
     protected void onResume() {
         super.onResume();
@@ -94,19 +96,15 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    //Call when the app is running in background or partially hidden
     @Override
     protected void onPause() {
         super.onPause();
         saveMoodWhenLeave();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        saveMoodWhenLeave();
-        System.out.println("MainActivity::onStop()");
-    }
-
+    //Call by system to save memory or when the user kill the app
+    //Not always called before shutting down the app
     @Override
     protected void onDestroy() {
         super.onDestroy();
