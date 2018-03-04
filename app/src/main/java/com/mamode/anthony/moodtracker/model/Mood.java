@@ -23,7 +23,7 @@ public class Mood {
         return mMoodType;
     }
 
-    public String getDateMood(){
+    public String getDateMood() {
         return mDate;
     }
 

@@ -9,7 +9,10 @@ import android.widget.ImageView;
 
 import com.mamode.anthony.moodtracker.R;
 
-
+/**
+ * SmileyFragment creates an instance for each Fragment needed by the FragmentPagerAdapter
+ * Each Fragment contains an image and a background color
+ **/
 public class SmileyFragment extends Fragment {
 
     private static final String MOOD = "mood";
@@ -18,6 +21,7 @@ public class SmileyFragment extends Fragment {
     private String mBackground;
 
     //Create a new instance of SmileyFragment and set mood and background color
+    //This method is called by our FragmentPagerAdapter
     public static SmileyFragment newInstance(String mood, String background) {
         SmileyFragment smileyFragment = new SmileyFragment();
 
@@ -36,8 +40,10 @@ public class SmileyFragment extends Fragment {
         return smileyFragment;
     }
 
-    //Retrieve mood and background color from its arguments
-    //We retrieve the args thanks to the key MOOD and BACKGROUND
+
+    /*We retrieve the args thanks to the key MOOD and BACKGROUND
+     *and put them into our fields members
+    */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +52,10 @@ public class SmileyFragment extends Fragment {
     }
 
     /*
-     * Override Fragment's onCreateView method.
-     * The onCreateView() method is called when it's time to the fragment to create is UI for the
-     * first time.
-     * The (@param inflater) is used to inflate smiley_fragment view, which will be used as layout
-     * for our fragment.
+     * Called when it's time to the fragment to create is UI
+     * The (@param inflater) is used to inflate smiley_fragment view
      * The (@param container) is the fragment's view attached layout (activity_main)
+     * we retrieve image and background thanks to our field members
      */
 
     @Override

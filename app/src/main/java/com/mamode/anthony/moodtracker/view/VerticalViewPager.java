@@ -29,9 +29,9 @@ public class VerticalViewPager extends ViewPager {
     }
 
 
-     /*Set a PageTransformer that will be called whenever the scroll position is changed
-     ReverseDrawingOrder : true if the PageTransformer needs views to be drawn from last to first
-     LayerType : code 0 = none*/
+    /*Set a PageTransformer that will be called whenever the scroll position is changed
+    ReverseDrawingOrder : true if the PageTransformer needs views to be drawn from last to first
+    LayerType : code 0 = none*/
     private void init() {
         setPageTransformer(false, new VerticalPageTransformer(), 0);
     }
@@ -55,9 +55,9 @@ public class VerticalViewPager extends ViewPager {
 
     //Method to switch X and Y axis
     private MotionEvent switchXY(MotionEvent event) {
-        final float x = getWidth()*event.getY() / getHeight();
-        final float y = getHeight()*event.getX() /getWidth();
-        event.setLocation(x,y);
+        final float x = getWidth() * event.getY() / getHeight();
+        final float y = getHeight() * event.getX() / getWidth();
+        event.setLocation(x, y);
         return event;
     }
 
@@ -70,9 +70,9 @@ public class VerticalViewPager extends ViewPager {
         @Override
         public void transformPage(View view, float position) {
             //Counteract the screen slide on X with a negative X translation
-            view.setTranslationX(-1*view.getWidth()*position);
+            view.setTranslationX(-1 * view.getWidth() * position);
             //Add a Y translation for the view (fragment)
-            view.setTranslationY(view.getHeight()*position);
+            view.setTranslationY(view.getHeight() * position);
         }
     }
 }

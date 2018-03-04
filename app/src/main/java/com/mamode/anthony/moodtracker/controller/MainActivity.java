@@ -14,8 +14,8 @@ import com.mamode.anthony.moodtracker.R;
 import com.mamode.anthony.moodtracker.model.DataHolder;
 import com.mamode.anthony.moodtracker.model.Mood;
 import com.mamode.anthony.moodtracker.model.MoodTypes;
-import com.mamode.anthony.moodtracker.view.VerticalViewPager;
 import com.mamode.anthony.moodtracker.view.CustomFragmentPagerAdapter;
+import com.mamode.anthony.moodtracker.view.VerticalViewPager;
 
 
 /**
@@ -50,10 +50,9 @@ public class MainActivity extends FragmentActivity {
         mHistoryButton = findViewById(R.id.activity_main_history_btn);
         mPieButton = findViewById(R.id.activity_main_pie_btn);
 
-         /*Set the com.example.anthony.moodtrackerbeta.CustomFragmentPagerAdapter to show fragments.
-        The CustomFragmentPagerAdapter constructor needs a FragmentManager object as argument.
-        To provide it, we use the method "getSupportFragmentManager()".
-        This FragmentManager object is necessary to keep in memory each fragment and to manage them.
+        /*Set the CustomFragmentPagerAdapter to show fragments.
+         *We provide the FragmentManager to the constructor with "getSupportFragmentManager()".
+         *This FragmentManager object is necessary to keep in memory each fragment and to manage them.
         */
         mVerticalViewPager.setAdapter(new CustomFragmentPagerAdapter(getSupportFragmentManager()));
     }
@@ -109,7 +108,6 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         saveMoodWhenLeave();
-        System.out.println("MainActivity::onDestroy()");
     }
 
     //Show AlertDialog to add note
